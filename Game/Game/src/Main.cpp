@@ -15,21 +15,41 @@
 void Main()
 {
     /* -- 初期設定 -- */
-    const Texture texture(U"swordEffect.png");  // テクスチャのパス
+#if 0
+    String textureStr(U"swordEffect01.png");   // テクスチャのパス
     const Size size(192, 192);                  // 1コマのサイズ
-    const double rate = 0.08;                   // 次のコマへの切り替え時間    
-    const int32 maxCount = 12;                  // 全コマ数
-    const int32 xNum = 5;                       // 横のコマ数
-    const int32 yNum = 3;                       // 縦のコマ数
+    const double rate = 0.02;                  // 次のコマへの切り替え時間    
+    const int32 maxCount = 8;                  // 全コマ数
+    const int32 xNum = 5;                      // 横のコマ数
+    const int32 yNum = 2;                      // 縦のコマ数
+#endif
+#if 1
+    String textureStr(U"swordEffect02.png");   // テクスチャのパス
+    const Size size(192, 192);                 // 1コマのサイズ
+    const double rate = 0.08;                  // 次のコマへの切り替え時間    
+    const int32 maxCount = 12;                 // 全コマ数
+    const int32 xNum = 5;                      // 横のコマ数
+    const int32 yNum = 3;                      // 縦のコマ数
+#endif
+#if 0
+    String textureStr(U"tktk_Chanting_6.png");   // テクスチャのパス
+    const Size size(192, 192);                 // 1コマのサイズ
+    const double rate = 0.08;                  // 次のコマへの切り替え時間    
+    const int32 maxCount = 16;                 // 全コマ数
+    const int32 xNum = 5;                      // 横のコマ数
+    const int32 yNum = 4;                      // 縦のコマ数
+#endif
 
     /* -- 以下処理 -- */
+    const Texture texture(textureStr);
+    const Texture hero(U"hero01.png");
     int32 count = 0;
     int32 posX = 0;
     int32 posY = 0;
     double accum = 0;
     bool isComplete = false;
 
-    Scene::SetBackground(Palette::White);
+    Scene::SetBackground(Palette::Gray);
     if (!texture)
         throw Error(U"Not found Texture!");
 
@@ -56,10 +76,28 @@ void Main()
                 posY = 0;
                 isComplete = true;
                 System::Sleep(1000);
+
             }
         }
 
-        texture(size.x * posX, size.y * posY, size).drawAt(Scene::Center());
+        hero(160, 96, 32, 48).drawAt(180, Scene::Center().y);
+
+        if (U"swordEffect01.png" == textureStr)
+            texture(size.x * posX, size.y * posY, size).resized(100, 40).drawAt(140, Scene::Center().y);
+
+        if(U"swordEffect02.png" == textureStr)
+            texture(size.x * posX, size.y * posY, size).resized(500, 100).drawAt(Scene::Center());
+
+        if (U"tktk_Chanting_6.png" == textureStr) {
+            texture(size.x * posX, size.y * posY, size).drawAt(140, Scene::Center().y + 10);
+        }
+
+        if(MouseL.pressed())
+            hero(160, 96, 32, 48).drawAt(140, Scene::Center().y);
+        else
+            hero(96, 96, 32, 48).drawAt(140, Scene::Center().y);
+
+        hero(160, 96, 32, 48).drawAt(220, Scene::Center().y);
     }
 }
 
