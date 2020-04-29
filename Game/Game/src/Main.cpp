@@ -42,7 +42,7 @@ void Main()
 
     /* -- 以下処理 -- */
     const Texture texture(textureStr);
-    const Texture hero(U"hero01.png");
+    const Texture hero(Image(U"hero01.png").thresholded(0));
     int32 count = 0;
     int32 posX = 0;
     int32 posY = 0;
